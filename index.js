@@ -8,12 +8,18 @@ module.exports = new Junction();
 Junction.prototype.route = function(app, options) {
     options = options || {};
 
-    var routesPath = options.routes || "config/routes",
+    var dir = options.dir || path.join(__dirname, '../..'),
+        routesPath = options.routes || "config/routes",
         controllerPath = options.controllers || "controllers",
         models = options.models || null;
 
-    routesPath = path.join(__dirname, routesPath);
-    controllerPath = path.join(__dirname, controllerPath);
+    routesPath = path.join(dir, routesPath);
+    controllerPath = path.join(dir, controllerPath);
+
+    if (!fs.existsSync(routesPath) && !fs.existsSync(routesPath + '.js'))
+        throw new Error('Routes file "'+routesPath+'" not found');
+    if (!fs.existsSync(controllerPath))
+        throw new Error('Controller path "'+controllerPath+'" not found');
 
     return new Router(app, routesPath, controllerPath, models);
 };

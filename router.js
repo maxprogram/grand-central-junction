@@ -41,4 +41,10 @@ module.exports = function(app, routes, controllerPath, models) {
     }
 
     require(routes)(match, resources);
+
+    return {
+        routes: app.routes,
+        controllerPath: controllerPath,
+        routesPath: routes
+    };
 };

@@ -8,6 +8,7 @@ A simple Rails-inspired router for Node built on top of Express.
 
 __Options that can be specified:__
 
+* `dir` is the home directory of the app. Defaults to the directory that contains the `node_modules` folder
 * `routes` is the routes path, relative to the directory route() is called from. Defaults to `config/routes`
 * `controllers` is the controllers path. Defaults to `controllers`
 * `models` is an object or array that is passed as the 3rd parameter to every controller, i.e. in function (req, res, models). Defaults to `null`
@@ -24,8 +25,9 @@ gcj.route(app);
 With options:
 ```js
 gcj.route(app, {
-    routes: 'router/routes',       // Will get the routes from ./router/routes.js
-    controller: 'app/controllers'  // Will look for controllers in ./app/controllers/
+    dir: __dirname + '/app',
+    routes: 'router/routes',       // Will get the routes from ./app/router/routes.js
+    controllers: 'controllers'  // Will look for controllers in ./app/controllers/
     models: orm.getModels()        // Will be passed as te 3rd param to every controller function
 });
 ```
