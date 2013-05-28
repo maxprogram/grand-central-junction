@@ -1,0 +1,27 @@
+{
+    "name": "grand-central-junction",
+    "description": "A simple, lightweight router for Node and Express",
+    "version": "0.0.2",
+    "keywords": ["grand central", "router", "rails", "grand central junction", "routes"],
+    "author": {
+        "name": "Max Olson",
+        "url": "http://www.github.com/maxprogram/grand-central-junction"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/"
+    },
+
+    "main": "index",
+
+    "scripts": {
+        "test": "mocha -R spec"
+    },
+
+    "devDependencies": {
+        "mocha": "0.11.x",
+        "express": "3.2.5"
+    },
+
+    "dependencies": {}
+}
