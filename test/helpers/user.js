@@ -1,19 +1,19 @@
-exports.index = function(req,res,models) {
-    return models;
+exports.index = function(req, res) {
+    return 'index';
 };
 
-exports.create = function(req,res,models) {
-    return models;
+exports.create = function(req, res) {
+    return 'create';
 };
 
-exports.show = function(req,res,models) {
-    return models;
+exports.show = function(req, res) {
+    return 'show';
 };
 
-exports.update = function(req,res,models) {
-    return models;
+exports.update = function(req, res) {
+    return 'update';
 };
 
-exports.destroy = function(req,res,models) {
-    return models;
+exports.destroy = function(req, res) {
+    return 'destroy';
 };

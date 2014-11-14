@@ -1,5 +1,6 @@
 var assert = require('assert'),
     path = require('path'),
+    _ = require('lodash'),
     gcj = require('..'),
     express = require('express');
 
@@ -9,45 +10,51 @@ var app = express();
 var ops = {
     dir: __dirname,
     controllers: 'helpers',
-    routes: 'helpers/match',
-    models: 8886
+    routes: 'helpers/match'
 };
+var router = gcj.route(app, ops), route;
+
+function getRoute(name) {
+    return _.where(router.routes, function(r) {
+        return r.route && r.route.path == name;
+    })[0].route;
+}
 
 it('should initialize with provided options', function() {
-    var router = gcj.route(app, ops);
-
     assert.equal(router.routesPath, path.join(__dirname, 'helpers/match'));
     assert.equal(router.controllerPath, path.join(__dirname, 'helpers'));
 });
 
 it('should match route', function() {
-    var routes = app.routes;
-    assert.equal(routes.get[0].path, '/');
-    assert.equal(routes.get[0].callbacks[0](), 8886);
+    route = getRoute('/');
+    assert(route.methods['get']);
 });
 
 it('should match route with other methods', function() {
-    var routes = app.routes;
-    assert.equal(routes.post[0].path, '/create');
-    assert.equal(routes.post[0].callbacks[0](), 'post');
+    route = getRoute('/create');
+    assert(route.methods['post']);
+    route = getRoute('/update');
+    assert(route.methods['put']);
+});
+
+it('should be able to use functions', function() {
+    route = getRoute('/test');
+    assert.equal(route.stack.length, 2);
+    assert.equal(route.stack[1].handle(), 8886);
 });
 
 it('should route to CRUD resources', function() {
     var appNew = express();
 
     ops.routes = 'helpers/resources';
-    var router = gcj.route(appNew, ops),
-        routes = appNew.routes;
+    router = gcj.route(appNew, ops);
 
-    assert.equal(routes.get[2].path, '/user/edit/:id');
-    assert.equal(routes.get[2].keys[0].name, 'id');
+    route = getRoute('/user/edit/:id');
+    assert(route.methods['get']);
 
-    routes.get.forEach(function(method) {
-        assert.equal(method.callbacks[0](), 8886);
-    });
-    assert.equal(routes.post[0].callbacks[0](), 8886);
-    assert.equal(routes.put[0].callbacks[0](), 8886);
-    assert.equal(routes['delete'][0].callbacks[0](), 8886);
+    route = getRoute('/user/:id');
+    assert(route.methods['get']);
+    assert.equal(route.stack[0].handle(), 'show');
 });
 
 it('should throw err with bad routes file', function() {

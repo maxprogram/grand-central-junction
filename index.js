@@ -10,8 +10,7 @@ Junction.prototype.route = function(app, options) {
 
     var dir = options.dir || path.join(__dirname, '../..'),
         routesPath = options.routes || "config/routes",
-        controllerPath = options.controllers || "controllers",
-        models = options.models || null;
+        controllerPath = options.controllers || "controllers";
 
     routesPath = path.join(dir, routesPath);
     controllerPath = path.join(dir, controllerPath);
@@ -21,5 +20,5 @@ Junction.prototype.route = function(app, options) {
     if (!fs.existsSync(controllerPath))
         throw new Error('Controller path "'+controllerPath+'" not found');
 
-    return new Router(app, routesPath, controllerPath, models);
+    return new Router(app, routesPath, controllerPath);
 };

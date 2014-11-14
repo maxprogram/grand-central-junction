@@ -1,7 +1,11 @@
-exports.index = function(req, res, models) {
-    return models;
+exports.index = function(req, res) {
+    return 'index';
 };
 
-exports.create = function(req, res, models) {
-    return 'post';
+exports.create = function(req, res) {
+    return 'create';
+};
+
+exports.update = function(req, res) {
+    return 'update';
 };
